@@ -57,3 +57,9 @@ bool BlockFileReader::moveFileCursor(int blockNumber) const {
     }
     return true;
 }
+
+int BlockFileReader::size() const {
+    fseek(fileHandle, 0L, SEEK_END);
+    int size = ftell(fileHandle);
+    return (size-1)/BLOCK_SIZE + 1;
+}

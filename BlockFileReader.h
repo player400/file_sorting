@@ -21,6 +21,8 @@ private:
 public:
     const std::string& getFileName() const;
 
+    int size() const;
+
     unsigned int readBlock(int blockNumber, uint8_t* outputArray) const;
 
     bool writeBlock(int blockNumber, uint8_t* inputArray) const;
