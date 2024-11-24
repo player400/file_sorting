@@ -1,9 +1,12 @@
 #include <iostream>
 
 #include "BlockFileReader.h"
+#include "BufferStringManager.h"
 
 int main() {
     uint8_t test1[512];
+
+
     uint8_t test2[512] = {0};
 
     for(int i=0;i<512;i++)

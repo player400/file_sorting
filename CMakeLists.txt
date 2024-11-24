@@ -5,4 +5,6 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(p1 main.cpp
         BlockFileReader.cpp
-        BlockFileReader.h)
+        BlockFileReader.h
+        BufferStringManager.cpp
+        BufferStringManager.h)
