@@ -7,7 +7,25 @@
 
 
 class Run {
+    int startingBlock;
+public:
+    int getStartingBlock() const;
 
+    int getSize() const;
+
+private:
+    int size;
+
+public:
+    friend Run operator+(Run& left, Run& right);
+
+    Run operator=(Run& right);
+
+    Run(Run& old);
+
+    Run(Run&& old);
+
+    Run(int startingBlock, int size);
 };
 
 
