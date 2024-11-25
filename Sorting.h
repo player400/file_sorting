@@ -14,6 +14,7 @@
 #include "PrintRecords.h"
 #include "Tape.h"
 #include "OutputTape.h"
+#include "GeneralLogger.h"
 
 void sort(std::string fileName)
 {
@@ -78,6 +79,7 @@ void sort(std::string fileName)
                 }
             }
             tempRuns->emplace_back(ab.getStartingBlock(), ab.getSize());
+            GeneralLogger::sortingPhaseDone();
         }
         if(runs->size()==1)
         {

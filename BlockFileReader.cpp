@@ -3,6 +3,7 @@
 //
 
 #include "BlockFileReader.h"
+#include "GeneralLogger.h"
 
 const std::string& BlockFileReader::getFileName() const {
     return fileName;
@@ -29,6 +30,7 @@ unsigned int BlockFileReader::readBlock(int blockNumber, uint8_t *outputArray) c
     {
         return 0;
     }
+    GeneralLogger::readDiskPage();
     return fread((void*)outputArray, 1, BLOCK_SIZE, fileHandle);
 }
 
@@ -39,6 +41,7 @@ bool BlockFileReader::writeBlock(int blockNumber, uint8_t *inputArray) const {
     }
     fwrite(inputArray, 1, BLOCK_SIZE, fileHandle);
     fflush(fileHandle);
+    GeneralLogger::writeDiskPage();
     return true;
 }
 

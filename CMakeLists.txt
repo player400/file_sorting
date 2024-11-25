@@ -17,4 +17,6 @@ add_executable(p1 main.cpp
         Tape.h
         OutputTape.cpp
         OutputTape.h
-        Sorting.h)
+        Sorting.h
+        GeneralLogger.h
+        GeneralLogger.cpp)
