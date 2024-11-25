@@ -23,6 +23,8 @@ private:
 public:
     Tape(BlockFileReader &sourceReader, std::string operatingFile);
 
+    void sortFirstBlock();
+
     bool isEmpty();
 
     uint64_t next();

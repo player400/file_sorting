@@ -20,7 +20,6 @@ void sort(std::string fileName)
 {
     std::list<Run>* runs = new std::list<Run>;
     BlockFileReader reader(fileName);
-    sortFileBlocks(fileName);
     uint8_t buffer[BLOCK_SIZE];
     reader.readBlock(0, buffer);
     uint64_t totalCount = *((uint64_t*)buffer);
@@ -36,6 +35,11 @@ void sort(std::string fileName)
             }
         }
         runs->emplace_back(i, size);
+    }
+
+    if(runs->size()==1)
+    {
+        sortFileBlocks(fileName);
     }
 
     Tape tape1(reader, "tape1.tape");
@@ -54,7 +58,16 @@ void sort(std::string fileName)
             runs->pop_front();
             Run ab = a+b;
             tape1.loadRun(&a);
+            if(a.getSize()<=RECORDS_IN_BLOCK)
+            {
+                tape1.sortFirstBlock();
+            }
             tape2.loadRun(&b);
+            if(b.getSize()<=RECORDS_IN_BLOCK)
+            {
+                tape2.sortFirstBlock();
+            }
+
             outputTape.loadRun(&ab);
             while(!tape1.isEmpty() || !tape2.isEmpty())
             {

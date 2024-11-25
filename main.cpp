@@ -13,9 +13,12 @@ void generateAndSort(int recordCount, bool doPrintRecords = true)
 {
 
     std::string fileName = "original.nur";
-    generateRecords(fileName, recordCount);
+    generateRecords(fileName, recordCount, false);
+    std::cout<<std::endl;
+    std::cout<<"===== SORTING "<<recordCount<<" RECORDS ====="<<std::endl;
     if(doPrintRecords)
     {
+        std::cout<<"Unsorted:"<<std::endl;
         printRecords(fileName);
     }
     GeneralLogger::reset();
@@ -25,10 +28,10 @@ void generateAndSort(int recordCount, bool doPrintRecords = true)
     long long int sortingPhases = GeneralLogger::getSortingPhases();
     if(doPrintRecords)
     {
+        std::cout<<"Sorted:"<<std::endl;
         printRecords(fileName);
     }
-    std::cout<<std::endl;
-    std::cout<<"===== SORTING "<<recordCount<<" RECORDS ====="<<std::endl;
+    std::cout<<"Finished!"<<std::endl;
     std::cout<<"Page reads conducted: "<<pageReads<<std::endl;
     std::cout<<"Page writes conducted: "<<pageWrites<<std::endl;
     std::cout<<"Sorting phases: "<<sortingPhases<<std::endl;

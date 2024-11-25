@@ -46,3 +46,23 @@ bool Tape::isEmpty() {
     }
     return false;
 }
+
+void Tape::sortFirstBlock() {
+    int records = RECORDS_IN_BLOCK;
+    if(run->getSize() < RECORDS_IN_BLOCK)
+    {
+        records = run->getSize();
+    }
+    for(int j=0;j<records;j++)
+    {
+        for(int k=0; k<records-1; k++)
+        {
+            if(manager[k]>manager[k+1])
+            {
+                uint64_t temp = manager[k];
+                manager.writeRecord(manager[k+1], k);
+                manager.writeRecord(temp, k+1);
+            }
+        }
+    }
+}
