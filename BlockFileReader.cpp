@@ -38,6 +38,7 @@ bool BlockFileReader::writeBlock(int blockNumber, uint8_t *inputArray) const {
         return false;
     }
     fwrite(inputArray, 1, BLOCK_SIZE, fileHandle);
+    fflush(fileHandle);
     return true;
 }
 

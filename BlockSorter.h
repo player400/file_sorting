@@ -8,7 +8,7 @@
 #include "BufferRecordManager.h"
 #include "BlockFileReader.h"
 
-int sortFileBlocks(std::string fileName)
+void sortFileBlocks(std::string fileName)
 {
     BlockFileReader reader(fileName);
     uint8_t buffer[BLOCK_SIZE];

@@ -12,4 +12,9 @@ add_executable(p1 main.cpp
         BlockSorter.h
         PrintRecords.h
         Run.cpp
-        Run.h)
+        Run.h
+        Tape.cpp
+        Tape.h
+        OutputTape.cpp
+        OutputTape.h
+        Sorting.h)
