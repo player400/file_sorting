@@ -9,11 +9,18 @@ const std::string& BlockFileReader::getFileName() const {
     return fileName;
 }
 
-BlockFileReader::BlockFileReader(const std::string &fileName) : fileName(fileName) {
-    fileHandle = std::fopen(fileName.c_str(), "r+");
-    if(fileHandle==NULL)
+BlockFileReader::BlockFileReader(const std::string &fileName, bool createNew) : fileName(fileName) {
+    if(createNew)
     {
         fileHandle = std::fopen(fileName.c_str(), "w+");
+    }
+    else
+    {
+        fileHandle = std::fopen(fileName.c_str(), "r+");
+        if(fileHandle==NULL)
+        {
+            fileHandle = std::fopen(fileName.c_str(), "w+");
+        }
     }
 }
 

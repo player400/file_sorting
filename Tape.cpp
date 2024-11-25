@@ -20,7 +20,7 @@ void Tape::loadRun(Run *run) {
     }
 }
 
-Tape::Tape(BlockFileReader &sourceReader, std::string operatingFile) : sourceReader(sourceReader), myFile(operatingFile), manager(buffer) {}
+Tape::Tape(BlockFileReader &sourceReader, std::string operatingFile) : sourceReader(sourceReader), myFile(operatingFile, true), manager(buffer) {}
 
 uint64_t Tape::next() {
     return manager[index];

@@ -79,7 +79,6 @@ void sort(std::string fileName)
                 }
             }
             tempRuns->emplace_back(ab.getStartingBlock(), ab.getSize());
-            GeneralLogger::sortingPhaseDone();
         }
         if(runs->size()==1)
         {
@@ -88,6 +87,7 @@ void sort(std::string fileName)
         }
         delete runs;
         runs = tempRuns;
+        GeneralLogger::sortingPhaseDone();
         if(runs->size()==1)
         {
             break;

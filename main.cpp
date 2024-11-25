@@ -36,6 +36,10 @@ void generateAndSort(int recordCount, bool doPrintRecords = true)
 
 
 int main() {
-    generateAndSort(1000);
+    int recordCount [5] ={100, 1000, 10000, 100000, 1000000};
+    for(int i=0;i<5;i++)
+    {
+        generateAndSort(recordCount[i], false);
+    }
     return 0;
 }

@@ -36,7 +36,7 @@ char randomCharacter()
 void generateRecords(std::string fileName, int recordCount)
 {
     srand(0);
-    BlockFileReader writer(fileName);
+    BlockFileReader writer(fileName, true);
     uint8_t buffer[BLOCK_SIZE];
     int recordsGenerated;
     int blockNumber =1;

@@ -29,7 +29,7 @@ public:
 
     virtual ~BlockFileReader();
 
-    explicit BlockFileReader(const std::string &fileName);
+    explicit BlockFileReader(const std::string &fileName, bool createNew=false);
 };
 
 
