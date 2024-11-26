@@ -7,12 +7,22 @@
 
 
 
-int Tape::loadRun(int startingBlock, int totalSize, bool firstPhase) {
+int Tape::loadRun(int startingBlock, int totalSize, uint8_t* blockCache, bool useCache, bool firstPhase) {
 
     this->startingBlock = startingBlock;
     this->size = 0;
     uint8_t transitionalBuffer[BLOCK_SIZE];
-    sourceReader.readBlock(startingBlock, buffer);
+    if(useCache)
+    {
+        for(int i=0;i<BLOCK_SIZE;i++)
+        {
+            buffer[i] = blockCache[i];
+        }
+    }
+    else
+    {
+        sourceReader.readBlock(startingBlock, buffer);
+    }
     uint64_t greatestLast = 0;
     int firstBlockSize = RECORDS_IN_BLOCK;
     if(startingBlock+1==sourceReader.size())
@@ -50,6 +60,10 @@ int Tape::loadRun(int startingBlock, int totalSize, bool firstPhase) {
         }
         if(transManager[0]<greatestLast)
         {
+            for(int j=0;j<BLOCK_SIZE;j++)
+            {
+                blockCache[j] = transitionalBuffer[j];
+            }
             break;
         }
         myFile.writeBlock(pagesCopied, transitionalBuffer);

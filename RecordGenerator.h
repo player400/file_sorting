@@ -35,7 +35,7 @@ char randomCharacter()
 
 void generateRecords(std::string fileName, int recordCount, bool manualInsert=false)
 {
-    srand(0);
+    srand(time(NULL));
     BlockFileReader writer(fileName, true);
     uint8_t buffer[BLOCK_SIZE];
     int recordsGenerated;
@@ -48,8 +48,12 @@ void generateRecords(std::string fileName, int recordCount, bool manualInsert=fa
             char manualRecord[RECORD_SIZE+1];
             if(manualInsert)
             {
-                std::cout<<"Please Insert record "<<recordsGenerated<<": ";
+                std::cout<<"(type STOP to fill in rest of the records manually) Please Insert record "<<recordsGenerated<<": ";
                 std::cin>>manualRecord;
+                if(manualRecord[0]=='S' && manualRecord[1]=='T' && manualRecord[2]=='O' && manualRecord[3]=='P' && manualRecord[4]==0)
+                {
+                    manualInsert=false;
+                }
             }
             uint64_t newRecord = 0;
             for(int j=0;j<RECORD_SIZE;j++)

@@ -11,11 +11,10 @@
 
 #define EXPERIMENTS 5
 
-void generateAndSort(int recordCount, bool doPrintRecords = true)
+void generateAndSort(int recordCount, bool doPrintRecords = true, bool manualRecords=false)
 {
-
     std::string fileName = "original.nur";
-    generateRecords(fileName, recordCount, false);
+    generateRecords(fileName, recordCount, manualRecords);
     std::cout<<std::endl;
     std::cout<<"===== SORTING "<<recordCount<<" RECORDS ====="<<std::endl;
     if(doPrintRecords)
@@ -41,10 +40,49 @@ void generateAndSort(int recordCount, bool doPrintRecords = true)
 
 
 int main() {
-    int recordCount [EXPERIMENTS] ={100, 1000, 10000, 100000, 1000000};
-    for(int i=0;i<EXPERIMENTS;i++)
+    while(true)
     {
-        generateAndSort(recordCount[i], false);
+        std::cout<<std::endl;
+        std::cout<<"===== RUNNING EXPERIMENTS ====="<<std::endl;
+        std::cout<<"Type 1 to do manual testing. 2 to run tests on randomly generated records. 3 to terminate."<<std::endl;
+        int n;
+        std::cin>>n;
+        if(n==3)
+        {
+            break;
+        }
+        if(n==2)
+        {
+            std::cout<<"Type 1 to do the default range (100, 1000, 10000, 100000, 1000000). Or insert the number of records manually (has to be greater than 1)."<<std::endl;
+            int m;
+            std::cin >> m;
+            if(m==1)
+            {
+                int recordCount [EXPERIMENTS] ={100, 1000, 10000, 100000, 1000000};
+                system("clear");
+                for(int i=0;i<EXPERIMENTS;i++)
+                {
+                    generateAndSort(recordCount[i], false, false);
+                }
+            }
+            else
+            {
+                std::cout<<"Type 1 to print the results, 0 to not print the results."<<std::endl;
+                int o;
+                std::cin >> o;
+                system("clear");
+                generateAndSort(m, o, false);
+            }
+
+        }
+        else
+        {
+            std::cout<<"How many records do you want?"<<std::endl;
+            int m;
+            std::cin >> m;
+            system("clear");
+            generateAndSort(m, true, true);
+        }
+
     }
-    return 0;
 }

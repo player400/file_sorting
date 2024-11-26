@@ -23,7 +23,7 @@ void sort(std::string fileName)
     reader.readBlock(0, buffer);
     uint64_t totalCount = *((uint64_t*)buffer);
 
-    if(reader.size()==1)
+    if(reader.size()<=2)
     {
         sortFileBlocks(fileName);
         return;
@@ -33,6 +33,7 @@ void sort(std::string fileName)
     Tape tape2(reader, "tape2.tape");
 
     OutputTape outputTape(reader);
+    uint8_t blockCache[BLOCK_SIZE];
     int phases = 1;
     while(true)
     {
@@ -42,7 +43,7 @@ void sort(std::string fileName)
         {
             int outputRun = nextRun;
             bool nextRunIsOne = nextRun==1;
-            nextRun = tape1.loadRun(nextRun, totalCount, phases == 1);
+            nextRun = tape1.loadRun(nextRun, totalCount, blockCache, nextRun!=1,phases == 1);
             if(nextRun == reader.size())
             {
                 if(nextRunIsOne)
@@ -52,7 +53,7 @@ void sort(std::string fileName)
                 }
                 break;
             }
-            nextRun = tape2.loadRun(nextRun, totalCount, phases == 1);
+            nextRun = tape2.loadRun(nextRun, totalCount, blockCache, nextRun!=1, phases == 1);
             Run ab(outputRun, tape1.getSize()+tape2.getSize());
             outputTape.loadRun(&ab);
             while(!tape1.isEmpty() || !tape2.isEmpty())

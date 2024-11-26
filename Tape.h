@@ -36,7 +36,7 @@ public:
 
     uint64_t popNext();
 
-    int loadRun(int startingBlock, int totalSize, bool firstPhase = false);
+    int loadRun(int startingBlock, int totalSize, uint8_t* blockCache, bool useCache = false, bool firstPhase = false);
 
 };
 
