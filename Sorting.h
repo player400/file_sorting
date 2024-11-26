@@ -25,7 +25,7 @@ void sort(std::string fileName)
 
     if(reader.size()<=2)
     {
-        sortFileBlocks(fileName);
+        sortFileBlocks(fileName, 1, totalCount);
         return;
     }
 
@@ -81,7 +81,7 @@ void sort(std::string fileName)
         } while(nextRun+1<reader.size());
         if(phases==1 && nextRun+1 == reader.size())
         {
-            sortFileBlocks(fileName, nextRun);
+            sortFileBlocks(fileName, nextRun, totalCount);
         }
         phases++;
         if(sortingDone)
