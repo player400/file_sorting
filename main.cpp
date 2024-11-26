@@ -9,6 +9,8 @@
 #include "Sorting.h"
 #include "GeneralLogger.h"
 
+#define EXPERIMENTS 5
+
 void generateAndSort(int recordCount, bool doPrintRecords = true)
 {
 
@@ -39,8 +41,8 @@ void generateAndSort(int recordCount, bool doPrintRecords = true)
 
 
 int main() {
-    int recordCount [5] ={100, 1000, 10000, 100000, 1000000};
-    for(int i=0;i<5;i++)
+    int recordCount [EXPERIMENTS] ={100, 1000, 10000, 100000, 1000000};
+    for(int i=0;i<EXPERIMENTS;i++)
     {
         generateAndSort(recordCount[i], false);
     }

@@ -18,56 +18,42 @@
 
 void sort(std::string fileName)
 {
-    std::list<Run>* runs = new std::list<Run>;
     BlockFileReader reader(fileName);
     uint8_t buffer[BLOCK_SIZE];
     reader.readBlock(0, buffer);
     uint64_t totalCount = *((uint64_t*)buffer);
-    for(int i=1;i<reader.size();i++)
-    {
-        int size = RECORDS_IN_BLOCK;
-        if(i+1 == reader.size())
-        {
-            size = totalCount%RECORDS_IN_BLOCK;
-            if(size == 0)
-            {
-                size = RECORDS_IN_BLOCK;
-            }
-        }
-        runs->emplace_back(i, size);
-    }
 
-    if(runs->size()==1)
+    if(reader.size()==1)
     {
         sortFileBlocks(fileName);
+        return;
     }
 
     Tape tape1(reader, "tape1.tape");
     Tape tape2(reader, "tape2.tape");
 
     OutputTape outputTape(reader);
-
+    int phases = 1;
     while(true)
     {
-        auto* tempRuns = new std::list<Run>;
-        while(runs->size()>=2)
+        bool sortingDone = false;
+        int nextRun=1;
+        do
         {
-            Run a = runs->front();
-            runs->pop_front();
-            Run b = runs->front();
-            runs->pop_front();
-            Run ab = a+b;
-            tape1.loadRun(&a);
-            if(a.getSize()<=RECORDS_IN_BLOCK)
+            int outputRun = nextRun;
+            bool nextRunIsOne = nextRun==1;
+            nextRun = tape1.loadRun(nextRun, totalCount, phases == 1);
+            if(nextRun == reader.size())
             {
-                tape1.sortFirstBlock();
-            }
-            tape2.loadRun(&b);
-            if(b.getSize()<=RECORDS_IN_BLOCK)
-            {
-                tape2.sortFirstBlock();
-            }
+                if(nextRunIsOne)
+                {
+                    sortingDone = true;
 
+                }
+                break;
+            }
+            nextRun = tape2.loadRun(nextRun, totalCount, phases == 1);
+            Run ab(outputRun, tape1.getSize()+tape2.getSize());
             outputTape.loadRun(&ab);
             while(!tape1.isEmpty() || !tape2.isEmpty())
             {
@@ -91,22 +77,18 @@ void sort(std::string fileName)
                     }
                 }
             }
-            tempRuns->emplace_back(ab.getStartingBlock(), ab.getSize());
-        }
-        if(runs->size()==1)
+        } while(nextRun+1<reader.size());
+        if(phases==1 && nextRun+1 == reader.size())
         {
-            Run c = runs->front();
-            tempRuns->emplace_back(c.getStartingBlock(), c.getSize());
+            sortFileBlocks(fileName, nextRun);
         }
-        delete runs;
-        runs = tempRuns;
-        GeneralLogger::sortingPhaseDone();
-        if(runs->size()==1)
+        phases++;
+        if(sortingDone)
         {
             break;
         }
+        GeneralLogger::sortingPhaseDone();
     }
-    delete runs;
 }
 
 #endif //P1_SORTING_H

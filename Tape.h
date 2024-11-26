@@ -12,10 +12,15 @@
 
 class Tape {
 private:
-    Run* run;
+    int startingBlock;
+    int size;
     uint8_t buffer[BLOCK_SIZE];
     int index = 0;
     int currentBuffer = 0;
+public:
+    int getSize() const;
+
+private:
     int totalRecordsLeft = 0;
     BlockFileReader& sourceReader;
     BlockFileReader myFile;
@@ -23,7 +28,7 @@ private:
 public:
     Tape(BlockFileReader &sourceReader, std::string operatingFile);
 
-    void sortFirstBlock();
+    void sortBlock(int records, uint8_t* buffer);
 
     bool isEmpty();
 
@@ -31,7 +36,7 @@ public:
 
     uint64_t popNext();
 
-    void loadRun(Run* run);
+    int loadRun(int startingBlock, int totalSize, bool firstPhase = false);
 
 };
 
