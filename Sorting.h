@@ -42,18 +42,21 @@ void sort(std::string fileName)
         do
         {
             int outputRun = nextRun;
-            bool nextRunIsOne = nextRun==1;
+            bool wasOne = nextRun==1;
             nextRun = tape1.loadRun(nextRun, totalCount, blockCache, nextRun!=1,phases == 1);
             if(nextRun == reader.size())
             {
-                if(nextRunIsOne)
-                {
-                    sortingDone = true;
 
-                }
                 break;
             }
             nextRun = tape2.loadRun(nextRun, totalCount, blockCache, nextRun!=1, phases == 1);
+            if(nextRun==reader.size())
+            {
+                if(wasOne)
+                {
+                    sortingDone= true;
+                }
+            }
             Run ab(outputRun, tape1.getSize()+tape2.getSize());
             outputTape.loadRun(&ab);
             while(!tape1.isEmpty() || !tape2.isEmpty())
@@ -84,11 +87,12 @@ void sort(std::string fileName)
             sortFileBlocks(fileName, nextRun, totalCount);
         }
         phases++;
+        GeneralLogger::sortingPhaseDone();
         if(sortingDone)
         {
             break;
         }
-        GeneralLogger::sortingPhaseDone();
+
     }
 }
 

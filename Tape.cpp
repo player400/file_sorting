@@ -86,13 +86,13 @@ uint64_t Tape::next() {
 uint64_t Tape::popNext() {
     uint64_t result = manager[index];
     index++;
-    if(index==RECORDS_IN_BLOCK)
+    totalRecordsLeft--;
+    if(index==RECORDS_IN_BLOCK && totalRecordsLeft>0)
     {
         currentBuffer++;
         myFile.readBlock(currentBuffer, buffer);
         index = 0;
     }
-    totalRecordsLeft--;
     return result;
 }
 

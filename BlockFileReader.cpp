@@ -2,6 +2,7 @@
 // Created by player402 on 23.11.24.
 //
 
+#include <iostream>
 #include "BlockFileReader.h"
 #include "GeneralLogger.h"
 
@@ -38,6 +39,7 @@ unsigned int BlockFileReader::readBlock(int blockNumber, uint8_t *outputArray) c
         return 0;
     }
     GeneralLogger::readDiskPage();
+    //std::cout<<fileName<<" reading"<<std::endl;
     return fread((void*)outputArray, 1, BLOCK_SIZE, fileHandle);
 }
 
@@ -49,6 +51,7 @@ bool BlockFileReader::writeBlock(int blockNumber, uint8_t *inputArray) const {
     fwrite(inputArray, 1, BLOCK_SIZE, fileHandle);
     fflush(fileHandle);
     GeneralLogger::writeDiskPage();
+    //std::cout<<fileName<<" writing"<<std::endl;
     return true;
 }
 
