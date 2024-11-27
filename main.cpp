@@ -44,9 +44,31 @@ int main() {
     {
         std::cout<<std::endl;
         std::cout<<"===== RUNNING EXPERIMENTS ====="<<std::endl;
-        std::cout<<"Type 1 to do manual testing. 2 to run tests on randomly generated records. 3 to terminate."<<std::endl;
+        std::cout<<"Type 1 to do manual testing. 2 to run tests on randomly generated records. 3 to terminate. 4 to upload a file."<<std::endl;
         int n;
         std::cin>>n;
+        if(n==4)
+        {
+            std::string fileName;
+            std::cin>>fileName;
+
+            std::cout<<"Unsorted:"<<std::endl;
+            printRecords(fileName);
+
+            GeneralLogger::reset();
+            sort(fileName);
+            long long int pageReads = GeneralLogger::getPageReads();
+            long long int pageWrites = GeneralLogger::getPageWrites();
+            long long int sortingPhases = GeneralLogger::getSortingPhases();
+
+            std::cout<<"Sorted:"<<std::endl;
+            printRecords(fileName);
+
+            std::cout<<"Finished!"<<std::endl;
+            std::cout<<"Page reads conducted: "<<pageReads<<std::endl;
+            std::cout<<"Page writes conducted: "<<pageWrites<<std::endl;
+            std::cout<<"Sorting phases: "<<sortingPhases<<std::endl;
+        }
         if(n==3)
         {
             break;
